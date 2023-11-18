@@ -7,6 +7,9 @@ from services import password_processor
 from services import image_processor
 from models import ImageDecoder
 
+from tensorflow.keras import losses
+
+
 if __name__ == "__main__":
     # TODO: add error checking 
     password = sys.argv[1]
@@ -25,7 +28,11 @@ if __name__ == "__main__":
     img_width = preprocessed_img.shape[0]
     img_height = preprocessed_img.shape[1]
     
-    ImageDecoder.ImageDecoder
+    model_instance = ImageDecoder.ImageDecoder(preprocessed_pwd)
+    model_instance.compile(optimizer='adam', loss=losses.MeanSquaredError())
+
+    history = model_instance.fit(preprocessed_pwd, preprocessed_img, epochs=10, batch_size=1, shuffle=True)
+
 
     
 
