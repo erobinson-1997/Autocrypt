@@ -3,11 +3,15 @@ import numpy as np
 class password_processor():
     def __init__(self, pass_str: str):
         self._password_string = pass_str
-        self._process_data()
+
+    def __call__(self):
+        return self._process_data()
 
     def _process_data(self):
         array_data = self._string_to_ascii_array(self._password_string)
-        return self._normalize_data(array_data)
+        norm = self._normalize_data(array_data)
+        return np.expand_dims(norm, axis=-1)
+
 
     def _normalize_data(self, array_data):
         """

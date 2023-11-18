@@ -4,6 +4,9 @@ import numpy as np
 class image_processor():
     def __init__(self, img_path: str):
         self._image_path = img_path
+        
+    def __call__(self):
+        return self._process_data()
 
     def _process_data(self):
         array_data = self._img_to_array(self._image_path)
