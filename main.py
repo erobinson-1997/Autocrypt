@@ -5,7 +5,7 @@ import sys
 import os
 from services import password_processor
 from services import image_processor
-from models import ConvolutionalG
+from models import ImageDecoder
 
 if __name__ == "__main__":
     # TODO: add error checking 
@@ -21,10 +21,11 @@ if __name__ == "__main__":
     preprocessed_img = image_processor.image_processor(image_file_path).__call__()
     print("pre-processed img:", preprocessed_img.shape)
 
+    # get dimensions from input image to pass to ConvG if needed
     img_width = preprocessed_img.shape[0]
     img_height = preprocessed_img.shape[1]
     
-    # get dimensions from input image to pass to ConvG
+    ImageDecoder.ImageDecoder
 
     
 

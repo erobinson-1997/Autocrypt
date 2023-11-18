@@ -7,7 +7,7 @@ from tensorflow.keras import layers, losses
 from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 
-class decoder(Model):
+class ImageDecoder(Model):
     def __init__(self, in_val):
         self._input_value = in_val 
 
@@ -28,4 +28,5 @@ class decoder(Model):
     
     def call(self, x):
         decoded = self._dencode(x)
+        print("decoded:" decoded.shape)
         return decoded
