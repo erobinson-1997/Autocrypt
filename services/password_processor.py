@@ -9,8 +9,10 @@ class password_processor():
 
     def _process_data(self):
         array_data = self._string_to_ascii_array(self._password_string)
-        norm = self._normalize_data(array_data)
-        return np.expand_dims(norm, axis=-1)
+        norm = self._normalize_data(array_data) # (4,)
+        expanded = np.expand_dims(norm, axis=-1) # (4, 1)
+        expanded = np.expand_dims(expanded, axis=0) # (1, 4, 1)
+        return expanded
 
 
     def _normalize_data(self, array_data):

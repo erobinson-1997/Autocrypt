@@ -10,7 +10,10 @@ class image_processor():
 
     def _process_data(self):
         array_data = self._img_to_array(self._image_path)
-        return self._normalize_data(array_data)
+        norm = self._normalize_data(array_data)
+        expanded = np.expand_dims(norm, axis=0) # (1, 4, 1)
+        return expanded
+
 
     def _normalize_data(self, array_data):
         normalized_arr = array_data / 255.0
