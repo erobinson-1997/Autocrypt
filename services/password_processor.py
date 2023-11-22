@@ -12,6 +12,10 @@ class password_processor():
         norm = self._normalize_data(array_data) # (4,)
         expanded = np.expand_dims(norm, axis=-1) # (4, 1)
         expanded = np.expand_dims(expanded, axis=0) # (1, 4, 1)
+
+        # (1, 4, 3)
+        expanded = np.repeat(expanded, 3, axis=2)
+
         return expanded
 
 

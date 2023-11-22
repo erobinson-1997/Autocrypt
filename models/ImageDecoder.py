@@ -13,11 +13,10 @@ class ImageDecoder(Model):
         self._input_length = in_val.shape[0]
 
     def _dencoder(self):
-        input_layer = layers.Input(shape=(None, self._input_length, 1))
+        input_layer = layers.Input(shape=(self._input_length, 3))
         
         decoder = tf.keras.Sequential([
             input_layer,
-            layers.RepeateVector(3),
             layers.Conv2DTranspose(32, (2, 2), activation='relu', padding='same'),
             layers.UpSampling2D((4, 4)),
             layers.Conv2DTranspose(64, (2, 2), activation='relu', padding='same'),
