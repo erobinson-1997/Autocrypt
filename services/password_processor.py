@@ -1,3 +1,10 @@
+"""
+    Created by Ethan Robinson
+
+    The password_processor is a class that converts a string into a numpy array of 
+    normalized values that can used as input for a TensorFlow machine-learning model.
+"""
+
 import numpy as np
 
 class password_processor():
