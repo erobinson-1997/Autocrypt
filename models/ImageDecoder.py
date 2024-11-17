@@ -2,42 +2,38 @@
 # Started: November 16th, 2023
 
 import tensorflow as tf
-from tensorflow.keras import layers, losses
+from tensorflow.keras import layers
 from tensorflow.keras.models import Model
-from tensorflow.keras import backend as K
 
 class ImageDecoder(Model):
     """
-    ImageDecoder is a custom model that takes encoded image data and 
-    decodes it into a recognizable image format using a series of 
-    convolutional transpose and upsampling layers.
+    ImageDecoder is a custom model designed to decode encrypted image data.
+    It uses a specific input sequence, acting like a 'password,' to reconstruct
+    the original image format through a series of decryption layers.
     """
 
     def __init__(self, in_val):
         """
-        Initialize the ImageDecoder model.
+        Initialize the ImageDecoder model with an input 'key' sequence.
         
         Args:
-            in_val (tf.Tensor): Input tensor containing encoded data to be decoded.
+            in_val (tf.Tensor): Input tensor containing the encoded 'password' data 
+            used to unlock and decode the image.
         """
         super(ImageDecoder, self).__init__()
-        self._input_value = in_val 
+        self._input_value = in_val
         self._input_length = in_val.shape[1]  # Stores the length of the input shape
 
     def _dencoder(self):
         """
-        Builds the sequential decoding model.
+        Builds the sequential decoding model that interprets the input sequence.
         
         Returns:
             tf.keras.Sequential: A sequential model that decodes the input tensor
-            into an image format through LSTM, reshape, and Conv2DTranspose layers.
+            into an image format by reshaping, upsampling, and applying decryption layers.
         """
-        input_layer = layers.Input(shape=(None, self._input_length, 3))  # Define input layer with dynamic length
-        
-        # Sequential decoder architecture
         decoder = tf.keras.Sequential([
-            input_layer,
-            layers.LSTM(300),  # LSTM layer for sequential data processing
+            layers.LSTM(300, input_shape=(self._input_length, 3)),  # LSTM layer for sequential data processing
             layers.Reshape((10, 10, 3)),  # Reshape to 10x10x3 to approximate image-like shape
             # Multiple Conv2DTranspose and UpSampling2D layers for upscaling to the original image size
             layers.Conv2DTranspose(32, (2, 2), activation='relu', padding='same'),
@@ -62,14 +58,15 @@ class ImageDecoder(Model):
 
     def call(self, x):
         """
-        Invokes the decoding model on input data.
+        Invokes the decoding model with the provided input sequence.
         
         Args:
-            x (tf.Tensor): Input tensor to be decoded.
+            x (tf.Tensor): Input tensor that serves as the 'password' to be decoded 
+            into the original image.
         
         Returns:
-            tf.Tensor: Decoded tensor representing the upscaled image.
+            tf.Tensor: Decoded tensor representing the reconstructed image.
         """
-        decoded = self._dencoder()(x)  # Passes input through the decoder model
-        print("decoded:", decoded.shape)  # Prints the shape of the decoded output
+        decoded = self._dencoder()(x)
+        print("decoded:", decoded.shape)
         return decoded
